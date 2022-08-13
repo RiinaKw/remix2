@@ -1,0 +1,21 @@
+{
+    "name": "riinakw/remix",
+    "authors": [
+        {
+            "name": "Riina K.",
+            "email": "riinak.tv@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Riinakw\\Remix\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0.0"
+    },
+    "require-dev": {
+    },
+    "scripts": {
+    }
+}
