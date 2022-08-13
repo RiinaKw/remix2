@@ -20,7 +20,7 @@ class Audio
 
     private function __construct()
     {
-        Delay::log(static::class . ' start');
+        Delay::log(static::class . ' birth');
     }
 
     public function __destruct()
@@ -28,7 +28,7 @@ class Audio
         Delay::log(static::class . ' death');
     }
 
-    public function destroy()
+    public static function destroy()
     {
         static::$audio = null;
     }
