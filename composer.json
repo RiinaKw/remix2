@@ -1,5 +1,6 @@
 {
-    "name": "riinakw/remix",
+    "name": "riinakw/remix2",
+    "description": "Remix framework",
     "authors": [
         {
             "name": "Riina K.",
@@ -8,7 +9,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Riinakw\\Remix\\": "src/"
+            "Remix\\": "src/Remix"
         }
     },
     "require": {
