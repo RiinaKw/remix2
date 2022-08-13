@@ -43,4 +43,15 @@ class DelayTest extends TestCase
         // return to zero
         $this->assertSame(0, count(Delay::get()));
     }
+
+    public function testBirthAndDeath(): void
+    {
+        // add log
+        Delay::logBirth('test class');
+        $this->assertSame(['[birth] test class'], Delay::get());
+
+        // add another log
+        Delay::logDeath('test class');
+        $this->assertSame(['[birth] test class', '[death] test class'], Delay::get());
+    }
 }
