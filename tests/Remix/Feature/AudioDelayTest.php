@@ -10,6 +10,8 @@ class AudioDelayTest extends TestCase
 {
     /**
     * @runInSeparateProcess
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
     */
     public function testAudioInstanceLog(): void
     {
