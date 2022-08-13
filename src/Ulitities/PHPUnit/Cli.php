@@ -2,6 +2,7 @@
 
 namespace RemixUtilities\PHPUnit;
 
+use RemixUtilities\Output;
 use Remix\Effector;
 
 /**
@@ -14,16 +15,14 @@ use Remix\Effector;
 trait Cli
 {
     /**
-     * Capture the output.
+     * Capture the output and undecorate.
      *
      * @param callable $callback    Callable method with output
      * @return string
      */
     public function capture(callable $callback): string
     {
-        ob_start();
-        $callback();
-        $output = ob_get_clean();
+        $output = Output::capture($callback);
         return Effector::trimDecoration($output);
     }
 }
