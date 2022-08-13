@@ -11,6 +11,6 @@ trait Cli
         ob_start();
         $cb();
         $output = ob_get_clean();
-        return Effector::trimDecorattion($output);
+        return Effector::trimDecoration($output);
     }
 }
