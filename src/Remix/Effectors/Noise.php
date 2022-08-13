@@ -6,11 +6,25 @@ use Remix\Effector;
 use Remix\Exceptions\RemixRuntimeException;
 use LogicException;
 
+/**
+ * Remix Noise Effector : throw exceptions for debugging.
+ *
+ * @package  Remix\Cli\Effectors
+ */
 class Noise extends Effector
 {
+    /**
+     * Title of Effector.
+     */
     protected const TITLE = 'Always throw an exception.';
 
-    public function index(array $args = [])
+    /**
+     * Throw a general exception.
+     *
+     * @param array $args
+     * @return integer
+     */
+    public function index(array $args = []): int
     {
         $voice = $args['args']['voice'] ?? 'Make some noise!!';
         if (in_array('C', $args['switches'])) {
@@ -19,7 +33,12 @@ class Noise extends Effector
         throw new RemixRuntimeException($voice);
     }
 
-    public function core()
+    /**
+     * Throw a dangerous exception.
+     *
+     * @return integer
+     */
+    public function core(): int
     {
         throw new LogicException('This is a test of logic exception.');
     }

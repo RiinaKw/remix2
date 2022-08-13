@@ -2,6 +2,11 @@
 
 namespace Remix;
 
+/**
+ * Remix Audio : application handler.
+ *
+ * @package Remix\Core
+ */
 class Audio
 {
     /**
@@ -9,14 +14,6 @@ class Audio
      * @var Audio
      */
     private static $audio = null;
-
-    public static function instance(): self
-    {
-        if (! static::$audio) {
-            static::$audio = new static();
-        }
-        return static::$audio;
-    }
 
     private function __construct()
     {
@@ -28,7 +25,25 @@ class Audio
         Delay::logDeath(static::class);
     }
 
-    public static function destroy()
+    /**
+     * Get the only instance, or create one if it does not exist.
+     *
+     * @return self
+     */
+    public static function instance(): self
+    {
+        if (! static::$audio) {
+            static::$audio = new static();
+        }
+        return static::$audio;
+    }
+
+    /**
+     * Destroy the instances it holds.
+     *
+     * @return void
+     */
+    public static function destroy(): void
     {
         static::$audio = null;
     }

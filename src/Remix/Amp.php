@@ -5,8 +5,19 @@ namespace Remix;
 use Remix\Exceptions\RemixRuntimeException;
 use Throwable;
 
+/**
+ * Remix Amp : command line interface.
+ *
+ * @package Remix\Cli
+ */
 class Amp
 {
+    /**
+     * Play the Effector specified by the command.
+     *
+     * @param array $argv
+     * @return integer
+     */
     public function play(array $argv): int
     {
         try {
@@ -47,6 +58,12 @@ class Amp
         }
     }
 
+    /**
+     * Parse the arguments of the command.
+     *
+     * @param array $argv
+     * @return array<string, array>
+     */
     private function parseArguments(array $argv): array
     {
         $args = [];

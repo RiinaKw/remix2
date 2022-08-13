@@ -2,10 +2,21 @@
 
 namespace Remix;
 
+/**
+ * Remix Effector : command line controller.
+ *
+ * @package Remix\Cli
+ */
 abstract class Effector
 {
+    /**
+     * Title of Effector.
+     */
     protected const TITLE = 'this effector is abstract class';
 
+    /**
+     * Definition of text foreground decoration.
+     */
     private const TEXT_COLORS = array(
         'black'         => '30',
         'dark_gray'     => '30',
@@ -26,6 +37,9 @@ abstract class Effector
         'white'         => '37',
     );
 
+    /**
+     * Definition of text background decoration.
+     */
     private const BACKGROUND_COLORS = array(
         'black'      => '40',
         'red'        => '41',
@@ -37,32 +51,61 @@ abstract class Effector
         'light_gray' => '47',
     );
 
+    /**
+     * Definition of text decoration.
+     */
     private const TEXT_DECORATION = array(
         'bold'      => '1',
         'underline' => '4',
     );
 
+    /**
+     * A code indicating the start of character decoration.
+     */
     public const DECORATION_START = "\033[";
 
+    /**
+     * A code indicating the end of character decoration.
+     */
     public const DECORATION_END = 'm';
 
+    /**
+     * Get title of this Effector.
+     *
+     * @return string
+     */
     public function title(): string
     {
         return static::TITLE;
     }
 
+    /**
+     * Output one line　to stdout.
+     *
+     * @param string $message
+     * @return self
+     */
     protected function line(string $message): self
     {
         echo $message;
         return $this;
     }
 
+    /**
+     * Decorate the text.
+     *
+     * @param string $text              text to decorate
+     * @param string $foreground_color  text foreground color
+     * @param string $background_color  text background color
+     * @param string $dec               other decorations
+     * @return string   decorated text
+     */
     public static function decorate(
         string $text,
         string $foreground_color = '',
         string $background_color = '',
         string $dec = ''
-    ) {
+    ): string {
         $foreground_color = $foreground_color ?: 'white';
         $background_color = $background_color ?: 'black';
 
@@ -85,7 +128,13 @@ abstract class Effector
         return $left . $text . $right;
     }
 
-    public static function trimDecoration(string $string)
+    /**
+     * Remove text decoration.
+     *
+     * @param string $string
+     * @return string
+     */
+    public static function trimDecoration(string $string): string
     {
         $regex = '/' . str_replace('[', '\\[', Effector::DECORATION_START) . '.*?m/';
         return preg_replace($regex, '', trim($string));
