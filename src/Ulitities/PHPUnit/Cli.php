@@ -6,10 +6,10 @@ use Remix\Effector;
 
 trait Cli
 {
-    public function capture(callable $cb)
+    public function capture(callable $callback)
     {
         ob_start();
-        $cb();
+        $callback();
         $output = ob_get_clean();
         return Effector::trimDecoration($output);
     }
