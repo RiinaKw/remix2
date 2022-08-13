@@ -57,7 +57,7 @@ abstract class Effector
         return $this;
     }
 
-    public function decorate(
+    public static function decorate(
         string $text,
         string $foreground_color = '',
         string $background_color = '',
@@ -83,5 +83,11 @@ abstract class Effector
         $left = self::DECORATION_START . $code . self::DECORATION_END;
         $right = self::DECORATION_START . '0' . self::DECORATION_END;
         return $left . $text . $right;
+    }
+
+    public static function trimDecoration(string $string)
+    {
+        $regex = '/' . str_replace('[', '\\[', Effector::DECORATION_START) . '.*?m/';
+        return preg_replace($regex, '', trim($string));
     }
 }
