@@ -3,7 +3,7 @@
 namespace Remix\Effectors;
 
 use Remix\Effector;
-use Remix\Exceptions\RemixException;
+use Remix\Exceptions\RemixRuntimeException;
 
 class Noise extends Effector
 {
@@ -11,6 +11,6 @@ class Noise extends Effector
 
     public function index()
     {
-        throw new RemixException('Make some noise!!');
+        throw new RemixRuntimeException('Make some noise!!');
     }
 }
