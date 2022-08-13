@@ -48,4 +48,13 @@ class AmpTest extends TestCase
         // Effector that throw an LogicException
         (new Amp())->play(['amp', 'noise:core']);
     }
+
+    public function testArguments(): void
+    {
+        // Effector that outputs change with arguments
+        $output = $this->capture(function () {
+            (new Amp())->play(['amp', 'noise', '--voice=Make it louder!!']);
+        });
+        $this->assertSame('Make it louder!!', $output);
+    }
 }

@@ -27,11 +27,19 @@ class Amp
             }
             $effector = new $class();
 
-            if (! method_exists($effector, $method)) {
+            if (! is_callable([$effector, $method])) {
                 throw new RemixRuntimeException("command '{$command}' not exists");
             }
 
-            $result = $effector->$method();
+            $args = [];
+            foreach ($argv as $arg) {
+                if (strpos($arg, '--') === 0) {
+                    list($key, $value) = explode('=', ltrim($arg, '-'), 2);
+                    $args[$key] = $value;
+                }
+            }
+
+            $result = $effector->$method($args);
             echo "\n";
             return $result;
         } catch (Throwable $e) {
