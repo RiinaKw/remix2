@@ -4,6 +4,7 @@ namespace Remix\Effectors;
 
 use Remix\Effector;
 use Remix\Exceptions\RemixRuntimeException;
+use LogicException;
 
 class Noise extends Effector
 {
@@ -12,5 +13,10 @@ class Noise extends Effector
     public function index()
     {
         throw new RemixRuntimeException('Make some noise!!');
+    }
+
+    public function core()
+    {
+        throw new LogicException('This is a test of logic exception.');
     }
 }

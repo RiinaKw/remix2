@@ -3,9 +3,9 @@
 namespace Remix\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Remix\Amp;
-use Remix\Effector;
 use RemixUtilities\PHPUnit\Cli;
+use Remix\Amp;
+use LogicException;
 
 class AmpTest extends TestCase
 {
@@ -39,5 +39,13 @@ class AmpTest extends TestCase
         });
 
         $this->assertSame('Make some noise!!', $output);
+    }
+
+    public function testNoisecore(): void
+    {
+        $this->expectException(LogicException::class);
+
+        // Effector that throw an LogicException
+        (new Amp())->play(['amp', 'noise:core']);
     }
 }
