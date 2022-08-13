@@ -21,6 +21,11 @@ final class Delay
         static::$log = [];
     }
 
+    public static function count(): int
+    {
+        return count(static::$log);
+    }
+
     public static function logBirth(string $classname): void
     {
         static::$log[] = '[birth] ' . $classname;
