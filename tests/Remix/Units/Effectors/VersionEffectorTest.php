@@ -15,7 +15,7 @@ class VersionEffectorTest extends TestCase
         $effector->index();
         $output = ob_get_clean();
 
-        $this->assertSame('v0.0.1-alpha', $output);
+        $this->assertSame('Remix framework v0.0.1-alpha', $output);
     }
 
     public function testTitle(): void
