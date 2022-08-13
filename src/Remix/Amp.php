@@ -31,22 +31,9 @@ class Amp
                 throw new RemixRuntimeException("command '{$command}' not exists");
             }
 
-            $args = [];
-            $switches = [];
-            foreach ($argv as $arg) {
-                if (strpos($arg, '--') === 0) {
-                    list($key, $value) = explode('=', ltrim($arg, '-'), 2);
-                    $args[$key] = $value;
-                } else if (strpos($arg, '-') === 0) {
-                    $switch = ltrim($arg, '-');
-                    if (strlen($switch) > 1) {
-                        throw new RemixRuntimeException("switch '{$arg}' not acceptable");
-                    }
-                    $switches[] = $switch;
-                }
-            }
+            $args = $this->parseArguments($argv);
 
-            $result = $effector->$method($args, $switches);
+            $result = $effector->$method($args);
             echo "\n";
             return $result;
         } catch (Throwable $e) {
@@ -58,5 +45,28 @@ class Amp
                 throw $e;
             }
         }
+    }
+
+    private function parseArguments(array $argv): array
+    {
+        $args = [];
+        $switches = [];
+        foreach ($argv as $arg) {
+            if (strpos($arg, '--') === 0) {
+                list($key, $value) = explode('=', ltrim($arg, '-'), 2);
+                $args[$key] = $value;
+            } else if (strpos($arg, '-') === 0) {
+                $switch = ltrim($arg, '-');
+                if (strlen($switch) > 1) {
+                    throw new RemixRuntimeException("switch '{$arg}' not acceptable");
+                }
+                $switches[] = $switch;
+            }
+        }
+
+        return [
+            'args' => $args,
+            'switches' => $switches,
+        ];
     }
 }
