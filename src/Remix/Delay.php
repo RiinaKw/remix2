@@ -16,6 +16,11 @@ final class Delay
         return static::$log;
     }
 
+    public static function flush()
+    {
+        static::$log = [];
+    }
+
     public static function logBirth(string $classname): void
     {
         static::$log[] = '[birth] ' . $classname;
