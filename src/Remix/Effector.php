@@ -57,7 +57,7 @@ abstract class Effector
         return $this;
     }
 
-    public function decorate(
+    public static function decorate(
         string $text,
         string $foreground_color = '',
         string $background_color = '',

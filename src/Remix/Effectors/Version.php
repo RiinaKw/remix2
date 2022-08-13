@@ -10,7 +10,7 @@ class Version extends Effector
 
     public function index()
     {
-        $version = $this->decorate('v0.0.1-alpha', 'yellow', 'green', 'bold');
+        $version = static::decorate('v0.0.1-alpha', 'yellow', 'green', 'bold');
         $this->line('Remix framework ' . $version);
         return 0;
     }
