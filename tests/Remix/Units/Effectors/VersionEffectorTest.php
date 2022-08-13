@@ -4,18 +4,18 @@ namespace Remix\Tests\Effectors;
 
 use PHPUnit\Framework\TestCase;
 use Remix\Effectors\Version as VersionEffector;
+use RemixUtilities\PHPUnit\Cli;
 
 class VersionEffectorTest extends TestCase
 {
+    use Cli;
+
     public function testIndex(): void
     {
-        $effector = new VersionEffector();
-
-        ob_start();
-        $effector->index();
-        $output = ob_get_clean();
-
-        $this->assertSame('Remix framework v0.0.1-alpha', VersionEffector::trimDecorattion($output));
+        $output = $this->capture(function () {
+            (new VersionEffector())->index();
+        });
+        $this->assertSame('Remix framework v0.0.1-alpha', $output);
     }
 
     public function testTitle(): void
