@@ -16,10 +16,7 @@ class AmpTest extends TestCase
         $amp->play(['amp', 'version']);
         $output = ob_get_clean();
 
-        $regex = '/' . str_replace('[', '\\[', Effector::DECORATION_START) . '.*?m/';
-        $output = preg_replace($regex, '', $output);
-
-        $this->assertSame('Remix framework v0.0.1-alpha', trim($output));
+        $this->assertSame('Remix framework v0.0.1-alpha', Effector::trimDecorattion($output));
     }
 
     public function testInvalid(): void
@@ -30,10 +27,7 @@ class AmpTest extends TestCase
         $amp->play(['amp', 'boo']);
         $output = ob_get_clean();
 
-        $regex = '/' . str_replace('[', '\\[', Effector::DECORATION_START) . '.*?m/';
-        $output = preg_replace($regex, '', $output);
-
-        $this->assertSame("command 'boo' not exists", trim($output));
+        $this->assertSame("command 'boo' not exists", Effector::trimDecorattion($output));
     }
 
     public function testNoise(): void
@@ -44,9 +38,6 @@ class AmpTest extends TestCase
         $amp->play(['amp', 'noise']);
         $output = ob_get_clean();
 
-        $regex = '/' . str_replace('[', '\\[', Effector::DECORATION_START) . '.*?m/';
-        $output = preg_replace($regex, '', $output);
-
-        $this->assertSame('Make some noise!!', trim($output));
+        $this->assertSame('Make some noise!!', Effector::trimDecorattion($output));
     }
 }

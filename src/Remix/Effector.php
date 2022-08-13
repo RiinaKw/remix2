@@ -84,4 +84,10 @@ abstract class Effector
         $right = self::DECORATION_START . '0' . self::DECORATION_END;
         return $left . $text . $right;
     }
+
+    public static function trimDecorattion(string $string)
+    {
+        $regex = '/' . str_replace('[', '\\[', Effector::DECORATION_START) . '.*?m/';
+        return preg_replace($regex, '', trim($string));
+    }
 }

@@ -15,10 +15,7 @@ class VersionEffectorTest extends TestCase
         $effector->index();
         $output = ob_get_clean();
 
-        $regex = '/' . str_replace('[', '\\[', VersionEffector::DECORATION_START) . '.*?m/';
-        $output = preg_replace($regex, '', $output);
-
-        $this->assertSame('Remix framework v0.0.1-alpha', $output);
+        $this->assertSame('Remix framework v0.0.1-alpha', VersionEffector::trimDecorattion($output));
     }
 
     public function testTitle(): void
