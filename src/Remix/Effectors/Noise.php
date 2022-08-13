@@ -10,9 +10,12 @@ class Noise extends Effector
 {
     protected const TITLE = 'Always throw an exception.';
 
-    public function index(array $args = [])
+    public function index(array $args = [], array $switches = [])
     {
         $voice = $args['voice'] ?? 'Make some noise!!';
+        if (in_array('C', $switches)) {
+            $voice = strtoupper($voice);
+        }
         throw new RemixRuntimeException($voice);
     }
 

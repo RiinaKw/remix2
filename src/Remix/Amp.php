@@ -32,14 +32,21 @@ class Amp
             }
 
             $args = [];
+            $switches = [];
             foreach ($argv as $arg) {
                 if (strpos($arg, '--') === 0) {
                     list($key, $value) = explode('=', ltrim($arg, '-'), 2);
                     $args[$key] = $value;
+                } else if (strpos($arg, '-') === 0) {
+                    $switch = ltrim($arg, '-');
+                    if (strlen($switch) > 1) {
+                        throw new RemixRuntimeException("switch '{$arg}' not acceptable");
+                    }
+                    $switches[] = $switch;
                 }
             }
 
-            $result = $effector->$method($args);
+            $result = $effector->$method($args, $switches);
             echo "\n";
             return $result;
         } catch (Throwable $e) {

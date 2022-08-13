@@ -57,4 +57,19 @@ class AmpTest extends TestCase
         });
         $this->assertSame('Make it louder!!', $output);
     }
+
+    public function testSwitch(): void
+    {
+        // Effector that outputs change with switch
+        $output = $this->capture(function () {
+            (new Amp())->play(['amp', 'noise', '-C']);
+        });
+        $this->assertSame('MAKE SOME NOISE!!', $output);
+
+        // Effector that outputs change with switch and arguments
+        $output = $this->capture(function () {
+            (new Amp())->play(['amp', 'noise', '-C', '--voice=Make it louder!!']);
+        });
+        $this->assertSame('MAKE IT LOUDER!!', $output);
+    }
 }
