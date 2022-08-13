@@ -22,6 +22,6 @@ class VersionEffectorTest extends TestCase
     {
         $effector = new VersionEffector();
 
-        $this->assertSame('Show version of Remix framework.', $effector->title());
+        $this->assertSame('Show the version of Remix framework.', $effector->title());
     }
 }
