@@ -22,10 +22,6 @@ class VersionEffectorTest extends TestCase
     {
         $effector = new VersionEffector();
 
-        ob_start();
-        $effector->index();
-        $output = ob_get_clean();
-
         $this->assertSame('Show version of Remix framework.', $effector->title());
     }
 }

@@ -10,4 +10,10 @@ abstract class Effector
     {
         return static::TITLE;
     }
+
+    protected function line(string $message): self
+    {
+        echo $message;
+        return $this;
+    }
 }

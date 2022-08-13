@@ -10,7 +10,7 @@ class Version extends Effector
 
     public function index()
     {
-        echo 'v0.0.1-alpha';
+        $this->line('v0.0.1-alpha');
         return 0;
     }
 }
