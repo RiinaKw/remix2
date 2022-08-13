@@ -20,12 +20,12 @@ class Audio
 
     private function __construct()
     {
-        Delay::log(static::class . ' birth');
+        Delay::logBirth(static::class);
     }
 
     public function __destruct()
     {
-        Delay::log(static::class . ' death');
+        Delay::logDeath(static::class);
     }
 
     public static function destroy()

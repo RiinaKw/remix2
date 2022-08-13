@@ -21,21 +21,21 @@ class AudioDelayTest extends TestCase
         $audio = Audio::instance();
 
         // birth log generated
-        $this->assertSame([Audio::class . ' birth'], Delay::get());
+        $this->assertSame(['[birth] ' . Audio::class], Delay::get());
 
         // no logs added
         Audio::instance();
-        $this->assertSame([Audio::class . ' birth'], Delay::get());
+        $this->assertSame(['[birth] ' . Audio::class], Delay::get());
 
         // no log added because referenced
         Audio::destroy();
-        $this->assertSame([Audio::class . ' birth'], Delay::get());
+        $this->assertSame(['[birth] ' . Audio::class], Delay::get());
 
         // no longer refer
         $audio = null;
         Audio::destroy();
 
         // death log generated
-        $this->assertSame([Audio::class . ' birth', Audio::class . ' death'], Delay::get());
+        $this->assertSame(['[birth] ' . Audio::class, '[death] ' . Audio::class], Delay::get());
     }
 }
