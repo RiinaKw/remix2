@@ -2,7 +2,7 @@
 
 namespace Remix;
 
-use RemixUtilities\Cli;
+use Remix\Utilities\Cli;
 
 /**
  * Remix Effector : command line controller.

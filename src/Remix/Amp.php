@@ -2,7 +2,7 @@
 
 namespace Remix;
 
-use RemixUtilities\Cli;
+use Remix\Utilities\Cli;
 use Remix\Exceptions\RemixRuntimeException;
 use Remix\Exceptions\RemixLogicException;
 use Throwable;

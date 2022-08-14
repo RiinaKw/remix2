@@ -2,7 +2,7 @@
 
 namespace Remix\Tests;
 
-use RemixUtilities\PHPUnit\BaseTestCase;
+use Remix\Utilities\PHPUnit\BaseTestCase;
 use Remix\Delay;
 
 class DelayTest extends BaseTestCase

@@ -3,7 +3,7 @@
 namespace Remix\Effectors;
 
 use Remix\Effector;
-use RemixUtilities\Cli;
+use Remix\Utilities\Cli;
 
 /**
  * Remix Version Effector : show the version of Remix.

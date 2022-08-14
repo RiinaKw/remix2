@@ -2,7 +2,7 @@
 
 namespace Remix\Tests\Effectors;
 
-use RemixUtilities\PHPUnit\BaseTestCase;
+use Remix\Utilities\PHPUnit\BaseTestCase;
 use Remix\Effectors\Version as VersionEffector;
 
 class VersionEffectorTest extends BaseTestCase

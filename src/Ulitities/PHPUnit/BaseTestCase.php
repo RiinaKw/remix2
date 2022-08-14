@@ -1,6 +1,6 @@
 <?php
 
-namespace RemixUtilities\PHPUnit;
+namespace Remix\Utilities\PHPUnit;
 
 use PHPUnit\Framework\TestCase;
 use Remix\Delay;

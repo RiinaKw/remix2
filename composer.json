@@ -10,7 +10,7 @@
     "autoload": {
         "psr-4": {
             "Remix\\": "src/Remix",
-            "RemixUtilities\\": "src/Ulitities"
+            "Remix\\Utilities\\": "src/Ulitities"
         }
     },
     "require": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace RemixUtilities;
+namespace Remix\Utilities;
 
 /**
  * Utility class for text output.

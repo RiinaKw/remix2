@@ -2,7 +2,7 @@
 
 namespace Remix\Tests;
 
-use RemixUtilities\PHPUnit\BaseTestCase;
+use Remix\Utilities\PHPUnit\BaseTestCase;
 use Remix\Amp;
 use ReflectionClass;
 use Remix\Exceptions\RemixLogicException;
