@@ -61,7 +61,7 @@ class Amp
 
             if ($command === null) {
                 (new Effectors\Version())->index();
-                echo "\n\n";
+                echo "\n";
                 echo Cli::decorate('Available commands', 'yellow') . "\n";
 
                 // show the title of command classes
@@ -100,17 +100,23 @@ class Amp
 
             // play it loud
             $result = $effector->$method($args);
-            echo "\n";
             return $result;
         } catch (Throwable $e) {
             if ($e instanceof RemixRuntimeException) {
                 // runtime error, e.g. wrong command name
-                echo Cli::decorate($e->getMessage(), '', 'red', 'bold');
+                echo Cli::decorate($e->getMessage(), 'red', '', 'bold');
                 echo "\n";
                 return 1;
-            } else {
-                throw $e;
+            } elseif ($e instanceof RemixLogicException) {
+                echo Cli::decorate('Internal fatal error in Remix', '', 'red', 'bold');
+                echo ' : ';
+                echo Cli::decorate($e->getMessage(), 'red');
+                echo "\n";
+                echo Cli::decorate('If you see this error, please report it.', 'red', '');
+                echo "\n";
+                echo "\n";
             }
+            throw $e;
         }
     }
 

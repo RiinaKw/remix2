@@ -32,7 +32,7 @@ abstract class Effector
      */
     protected function line(string $message): self
     {
-        echo $message;
+        echo $message . "\n";
         return $this;
     }
 }
