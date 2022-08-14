@@ -30,17 +30,15 @@ class Amp
             // slash to backslash
             $class = str_replace('/', '\\', $class);
 
-            // class name to command name
-            $arr = explode('\\', $class);
-
             // exists class?
-            $ns = '\\Remix\\Effectors\\';
-            $class_with_ns = $ns . $class;
+            $namespace = '\\Remix\\Effectors\\';
+            $class_with_ns = $namespace . $class;
             if (! class_exists($class_with_ns)) {
                 throw new \Exception("class '{$class_with_ns}' not found");
             }
 
             // mapping class names and commands
+            $arr = explode('\\', $class);
             $command = strtolower(array_pop($arr));
             $this->commands[$command] = $class_with_ns;
         }
@@ -66,7 +64,7 @@ class Amp
 
                 // show the title of command classes
                 foreach ($this->commands as $command => $class) {
-                    $effector = new ($class)();
+                    $effector = new $class();
 
                     echo '  ' . Effector::decorate($command, 'green', '', 'bold'). "\n";
                     echo '    ' . $effector->title() . "\n";
@@ -128,8 +126,8 @@ class Amp
         $dir = realpath($dir);
 
         $files = [];
-        $dh = opendir($dir);
-        while (($file = readdir($dh)) !== false) {
+        $handler = opendir($dir);
+        while (($file = readdir($handler)) !== false) {
             if (strpos($file, '.') === 0) {
                 continue;
             }
@@ -141,7 +139,7 @@ class Amp
                 $files[] = realpath($dir . '/' . $file);
             }
         }
-        closedir($dh);
+        closedir($handler);
 
         return $files;
     }
