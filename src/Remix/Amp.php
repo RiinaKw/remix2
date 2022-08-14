@@ -25,6 +25,23 @@ class Amp
 
             $command = array_shift($argv);
 
+            if ($command === null) {
+                (new Effectors\Version())->index();
+                echo "\n\n";
+                echo Effector::decorate('Available commands', 'yellow'). "\n";
+                foreach (glob(__DIR__ . '/Effectors/*.php') as $file) {
+                    $filename = ucfirst(basename($file));
+                    $classname = explode('.', $filename)[0];
+                    $class = '\\Remix\\Effectors\\' . $classname;
+                    $effector = new $class();
+
+                    $command_name = strtolower($classname);
+                    echo '  ' . Effector::decorate($command_name, 'green', '', 'bold'). "\n";
+                    echo '    ' . $effector->title() . "\n";
+                }
+                return 0;
+            }
+
             if (strpos($command, ':') !== false) {
                 list($class, $method) = explode(':', $command, 2);;
             } else {
