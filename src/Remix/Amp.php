@@ -62,12 +62,12 @@ class Amp
             if ($command === null) {
                 (new Effectors\Version())->index();
                 Cli::line();
-                Cli::line(Cli::decorate('Available commands', 'yellow'));
+                Cli::lineDecorate('Available commands', 'yellow');
 
                 // show the title of command classes
                 foreach ($this->commands as $command => $class) {
                     $effector = new $class();
-                    Cli::line(Cli::decorate('  ' . $command, 'green', '', 'bold'));
+                    Cli::lineDecorate('  ' . $command, 'green', '', 'bold');
 
                     foreach ($effector->available() as $subcommand => $description) {
                         $name = Cli::decorate($command . ($subcommand ? ':' . $subcommand : ''), 'yellow', '', 'bold');
@@ -107,12 +107,12 @@ class Amp
         } catch (Throwable $e) {
             if ($e instanceof RemixRuntimeException) {
                 // runtime error, e.g. wrong command name
-                Cli::line(Cli::decorate($e->getMessage(), 'red', '', 'bold'));
+                Cli::lineDecorate($e->getMessage(), 'red', '', 'bold');
                 return 1;
             } elseif ($e instanceof RemixLogicException) {
                 $message = Cli::decorate('Internal fatal error in Remix', '', 'red', 'bold') . '' . Cli::decorate($e->getMessage(), 'red');
                 Cli::line($message);
-                Cli::line(Cli::decorate('If you see this error, please report it.', 'red', ''));
+                Cli::lineDecorate('If you see this error, please report it.', 'red', '');
                 Cli::line();
             }
             throw $e;

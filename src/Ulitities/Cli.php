@@ -69,6 +69,16 @@ class Cli extends Output
         echo $output, "\n";
     }
 
+    public static function lineDecorate(
+        string $output = '',
+        string $foreground_color = '',
+        string $background_color = '',
+        string $dec = ''
+    ): void {
+        $output = static::decorate($output, $foreground_color, $background_color, $dec);
+        static::line($output);
+    }
+
     /**
      * Decorate the text.
      *
