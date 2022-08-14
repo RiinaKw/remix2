@@ -130,7 +130,9 @@ class Amp
                 return 1;
             } elseif ($e instanceof RemixLogicException) {
                 // I think I made an implementation error somewhere...
-                $message = Cli::decorate('Internal fatal error in Remix', '', 'red', 'bold') . '' . Cli::decorate($e->getMessage(), 'red');
+                $message = Cli::decorate('Internal fatal error in Remix', '', 'red', 'bold')
+                    . ' '
+                    . Cli::decorate($e->getMessage(), 'red');
                 Cli::line($message);
                 Cli::lineDecorate('If you see this error, please report it.', 'red', '');
                 Cli::line();
