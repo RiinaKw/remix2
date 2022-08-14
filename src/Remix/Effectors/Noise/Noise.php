@@ -1,6 +1,6 @@
 <?php
 
-namespace Remix\Effectors;
+namespace Remix\Effectors\Noise;
 
 use Remix\Effector;
 use Remix\Exceptions\RemixRuntimeException;

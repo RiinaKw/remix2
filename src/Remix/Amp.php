@@ -12,6 +12,40 @@ use Throwable;
  */
 class Amp
 {
+    private $commands = [];
+
+    public function __construct()
+    {
+        $dir = realpath(__DIR__ . '/Effectors');
+
+        foreach($this->findCommands($dir) as $file) {
+            // is it the php file?
+            if (substr($file, -4) !== '.php') {
+                continue;
+            }
+            // trim directory path and first slash
+            $class = substr($file, strlen($dir) + 1);
+            // trim extensioin
+            $class = substr($class, 0, -4);
+            // slash to backslash
+            $class = str_replace('/', '\\', $class);
+
+            // class name to command name
+            $arr = explode('\\', $class);
+
+            // exists class?
+            $ns = '\\Remix\\Effectors\\';
+            $class_with_ns = $ns . $class;
+            if (! class_exists($class_with_ns)) {
+                throw new \Exception("class '{$class_with_ns}' not found");
+            }
+
+            // mapping class names and commands
+            $command = strtolower(array_pop($arr));
+            $this->commands[$command] = $class_with_ns;
+        }
+    }
+
     /**
      * Play the Effector specified by the command.
      *
@@ -30,41 +64,9 @@ class Amp
                 echo "\n\n";
                 echo Effector::decorate('Available commands', 'yellow'). "\n";
 
-                // find the classes of the command
-                $dir = realpath(__DIR__ . '/Effectors');
-                $this->findCommands($dir);
-
-                $commands = [];
-                foreach($this->findCommands($dir) as $file) {
-                    // is it the php file?
-                    if (substr($file, -4) !== '.php') {
-                        continue;
-                    }
-                    // trim directory path and first slash
-                    $class = substr($file, strlen($dir) + 1);
-                    // trim extensioin
-                    $class = substr($class, 0, -4);
-                    // slash to backslash
-                    $class = str_replace('/', '\\', $class);
-
-                    // class name to command name
-                    $arr = explode('\\', $class);
-                    $command = strtolower(array_pop($arr));
-
-                    // exists class?
-                    $ns = '\\Remix\\Effectors\\';
-                    $class_with_ns = $ns . $class;
-                    if (! class_exists($class_with_ns)) {
-                        throw new \Exception("class '{$class_with_ns}' not found");
-                    }
-
-                    // mapping class names and commands
-                    $commands[$command] = $class_with_ns;
-                }
-
                 // show the title of command classes
-                foreach ($commands as $command => $class) {
-                    $effector = new ($class_with_ns)();
+                foreach ($this->commands as $command => $class) {
+                    $effector = new ($class)();
 
                     echo '  ' . Effector::decorate($command, 'green', '', 'bold'). "\n";
                     echo '    ' . $effector->title() . "\n";
@@ -78,24 +80,31 @@ class Amp
                 $class = $command;
                 $method = 'index';
             }
-            $class = '\\Remix\\Effectors\\' . ucfirst($class);
 
-            if (! class_exists($class)) {
-                throw new RemixRuntimeException("command '{$command}' not exists");
+            // is it mapped?
+            if (! array_key_exists($class, $this->commands)) {
+                throw new RemixRuntimeException("command '{$class}' not exists");
             }
-            $effector = new $class();
 
+            // class is already guaranteed to exist
+            $class_name = $this->commands[$class];
+            $effector = new $class_name();
+
+            // exists method?
             if (! is_callable([$effector, $method])) {
                 throw new RemixRuntimeException("command '{$command}' not exists");
             }
 
+            // parse command arguments
             $args = $this->parseArguments($argv);
 
+            // play it loud
             $result = $effector->$method($args);
             echo "\n";
             return $result;
         } catch (Throwable $e) {
             if ($e instanceof RemixRuntimeException) {
+                // runtime error, e.g. wrong command name
                 echo Effector::decorate($e->getMessage(), '', 'red', 'bold');
                 echo "\n";
                 return 1;
