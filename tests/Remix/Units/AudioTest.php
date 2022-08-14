@@ -2,10 +2,10 @@
 
 namespace Remix\Tests;
 
-use PHPUnit\Framework\TestCase;
+use RemixUtilities\PHPUnit\BaseTestCase;
 use Remix\Audio;
 
-class AudioTest extends TestCase
+class AudioTest extends BaseTestCase
 {
     /**
     * @runInSeparateProcess

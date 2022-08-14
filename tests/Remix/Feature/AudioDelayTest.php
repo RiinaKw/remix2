@@ -2,11 +2,11 @@
 
 namespace Remix\Tests;
 
-use PHPUnit\Framework\TestCase;
+use RemixUtilities\PHPUnit\BaseTestCase;
 use Remix\Audio;
 use Remix\Delay;
 
-class AudioDelayTest extends TestCase
+class AudioDelayTest extends BaseTestCase
 {
     /**
     * @runInSeparateProcess
@@ -21,21 +21,30 @@ class AudioDelayTest extends TestCase
         $audio = Audio::instance();
 
         // birth log generated
-        $this->assertSame(['[birth] ' . Audio::class], Delay::get());
+        $this->assertSame([
+            ['type' => 'TRACE', 'log' => '[birth] ' . Audio::class],
+        ], Delay::get());
 
         // no logs added
         Audio::instance();
-        $this->assertSame(['[birth] ' . Audio::class], Delay::get());
+        $this->assertSame([
+            ['type' => 'TRACE', 'log' => '[birth] ' . Audio::class],
+        ], Delay::get());
 
         // no log added because referenced
         Audio::destroy();
-        $this->assertSame(['[birth] ' . Audio::class], Delay::get());
+        $this->assertSame([
+            ['type' => 'TRACE', 'log' => '[birth] ' . Audio::class],
+        ], Delay::get());
 
         // no longer refer
         $audio = null;
         Audio::destroy();
 
         // death log generated
-        $this->assertSame(['[birth] ' . Audio::class, '[death] ' . Audio::class], Delay::get());
+        $this->assertSame([
+            ['type' => 'TRACE', 'log' => '[birth] ' . Audio::class],
+            ['type' => 'TRACE', 'log' => '[death] ' . Audio::class],
+        ], Delay::get());
     }
 }

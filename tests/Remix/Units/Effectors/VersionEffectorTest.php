@@ -2,11 +2,10 @@
 
 namespace Remix\Tests\Effectors;
 
-use PHPUnit\Framework\TestCase;
+use RemixUtilities\PHPUnit\BaseTestCase;
 use Remix\Effectors\Version as VersionEffector;
-use RemixUtilities\PHPUnit\Cli;
 
-class VersionEffectorTest extends TestCase
+class VersionEffectorTest extends BaseTestCase
 {
     public function testIndex(): void
     {

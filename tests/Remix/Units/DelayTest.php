@@ -2,13 +2,15 @@
 
 namespace Remix\Tests;
 
-use PHPUnit\Framework\TestCase;
+use RemixUtilities\PHPUnit\BaseTestCase;
 use Remix\Delay;
 
-class DelayTest extends TestCase
+class DelayTest extends BaseTestCase
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         Delay::flush();
     }
 
@@ -21,18 +23,23 @@ class DelayTest extends TestCase
     public function testAdd(): void
     {
         // add a log
-        Delay::log('test message');
-        $this->assertSame(['test message'], Delay::get());
+        Delay::log('TEST', 'test message');
+        $this->assertSame([
+            ['type' => 'TEST', 'log' => 'test message'],
+        ], Delay::get());
 
         // add another log
-        Delay::log('more message');
-        $this->assertSame(['test message', 'more message'], Delay::get());
+        Delay::log('TEST', 'more message');
+        $this->assertSame([
+            ['type' => 'TEST', 'log' => 'test message'],
+            ['type' => 'TEST', 'log' => 'more message'],
+        ], Delay::get());
     }
 
     public function testFlush(): void
     {
         // add a log
-        Delay::log('test message');
+        Delay::log('TEST', 'test message');
 
         // the count is one
         $this->assertSame(1, count(Delay::get()));
@@ -47,11 +54,11 @@ class DelayTest extends TestCase
     public function testCount()
     {
         // add a log, the count is one
-        Delay::log('test message');
+        Delay::log('TEST', 'test message');
         $this->assertSame(1, Delay::count());
 
         // add another log, the count is two
-        Delay::log('more message');
+        Delay::log('TEST', 'more message');
         $this->assertSame(2, Delay::count());
 
         // flush the log, the count should back to zero
@@ -63,10 +70,15 @@ class DelayTest extends TestCase
     {
         // add log
         Delay::logBirth('test class');
-        $this->assertSame(['[birth] test class'], Delay::get());
+        $this->assertSame([
+            ['type' => 'TRACE', 'log' => '[birth] test class'],
+        ], Delay::get());
 
         // add another log
         Delay::logDeath('test class');
-        $this->assertSame(['[birth] test class', '[death] test class'], Delay::get());
+        $this->assertSame([
+            ['type' => 'TRACE', 'log' => '[birth] test class'],
+            ['type' => 'TRACE', 'log' => '[death] test class'],
+        ], Delay::get());
     }
 }

@@ -2,13 +2,12 @@
 
 namespace Remix\Tests;
 
-use PHPUnit\Framework\TestCase;
-use RemixUtilities\PHPUnit\Cli;
+use RemixUtilities\PHPUnit\BaseTestCase;
 use Remix\Amp;
 use ReflectionClass;
 use Remix\Exceptions\RemixLogicException;
 
-class AmpTest extends TestCase
+class AmpTest extends BaseTestCase
 {
     public function testInvalidDirectory(): void
     {

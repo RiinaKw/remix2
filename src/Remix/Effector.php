@@ -18,6 +18,16 @@ abstract class Effector
         '' => 'This Effector is abstract class, prease override.',
     ];
 
+    public function __construct()
+    {
+        Delay::logBirth(static::class);
+    }
+
+    public function __destruct()
+    {
+        Delay::logDeath(static::class);
+    }
+
     /**
      * Get all available subcommands.
      *
