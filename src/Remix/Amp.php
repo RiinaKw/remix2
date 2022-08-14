@@ -14,18 +14,17 @@ use Throwable;
  */
 class Amp
 {
-    private $commands = [];
-
     private $effectors_dir = __DIR__ . '/Effectors';
     private $effectors_namespace = '\\Remix\\Effectors\\';
 
     /**
      * Create a mapping between command names and class names.
      *
-     * @return void
+     * @return array
      */
-    private function mapCommand()
+    private function mapCommand(): array
     {
+        $commands = [];
         foreach ($this->findCommands($this->effectors_dir) as $file) {
             // is it the php file?
             if (substr($file, -4) !== '.php') {
@@ -47,8 +46,9 @@ class Amp
             // mapping class names and commands
             $arr = explode('\\', $class);
             $command = strtolower(array_pop($arr));
-            $this->commands[$command] = $class_with_ns;
+            $commands[$command] = $class_with_ns;
         }
+        return $commands;
     }
 
     /**
@@ -77,7 +77,7 @@ class Amp
     {
         try {
             // load commands
-            $this->mapCommand();
+            $commands = $this->mapCommand();
 
             // get a command
             $command = array_shift($argv);
@@ -89,7 +89,7 @@ class Amp
                 Cli::lineDecorate('Available commands', 'yellow');
 
                 // show the details of command classes
-                foreach ($this->commands as $command => $class) {
+                foreach ($commands as $command => $class) {
                     Cli::lineDecorate('  ' . $command, 'green', '', 'bold');
                     $this->showSubcommands($command, $class);
                 }
@@ -105,12 +105,12 @@ class Amp
             }
 
             // is it mapped?
-            if (! array_key_exists($class, $this->commands)) {
+            if (! array_key_exists($class, $commands)) {
                 throw new RemixRuntimeException("command '{$class}' not exists");
             }
 
             // class is already guaranteed to exist
-            $class_name = $this->commands[$class];
+            $class_name = $commands[$class];
             $effector = new $class_name();
 
             // exists method?
