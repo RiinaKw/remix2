@@ -2,17 +2,11 @@
 
 namespace Remix\Tests\Effectors;
 
-use PHPUnit\Framework\TestCase;
+use RemixUtilities\PHPUnit\BaseTestCase;
 use Remix\Effectors\Version as VersionEffector;
-use Remix\Delay;
 
-class VersionEffectorTest extends TestCase
+class VersionEffectorTest extends BaseTestCase
 {
-    protected function setUp(): void
-    {
-        Delay::mute();
-    }
-
     public function testIndex(): void
     {
         $this->expectOutputRegex('/Remix framework/');

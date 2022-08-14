@@ -2,15 +2,16 @@
 
 namespace Remix\Tests;
 
-use PHPUnit\Framework\TestCase;
+use RemixUtilities\PHPUnit\BaseTestCase;
 use Remix\Delay;
 
-class DelayTest extends TestCase
+class DelayTest extends BaseTestCase
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         Delay::flush();
-        Delay::mute();
     }
 
     public function testNoLog(): void
