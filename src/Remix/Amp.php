@@ -2,6 +2,7 @@
 
 namespace Remix;
 
+use RemixUtilities\Cli;
 use Remix\Exceptions\RemixRuntimeException;
 use Remix\Exceptions\RemixLogicException;
 use Throwable;
@@ -63,13 +64,13 @@ class Amp
             if ($command === null) {
                 (new Effectors\Version())->index();
                 echo "\n\n";
-                echo Effector::decorate('Available commands', 'yellow') . "\n";
+                echo Cli::decorate('Available commands', 'yellow') . "\n";
 
                 // show the title of command classes
                 foreach ($this->commands as $command => $class) {
                     $effector = new $class();
 
-                    echo '  ' . Effector::decorate($command, 'green', '', 'bold') . "\n";
+                    echo '  ' . Cli::decorate($command, 'green', '', 'bold') . "\n";
                     echo '    ' . $effector->title() . "\n";
                 }
                 return 0;
@@ -106,7 +107,7 @@ class Amp
         } catch (Throwable $e) {
             if ($e instanceof RemixRuntimeException) {
                 // runtime error, e.g. wrong command name
-                echo Effector::decorate($e->getMessage(), '', 'red', 'bold');
+                echo Cli::decorate($e->getMessage(), '', 'red', 'bold');
                 echo "\n";
                 return 1;
             } else {

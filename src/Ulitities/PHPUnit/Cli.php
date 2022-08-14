@@ -2,8 +2,7 @@
 
 namespace RemixUtilities\PHPUnit;
 
-use RemixUtilities\Output;
-use Remix\Effector;
+use RemixUtilities\Cli as CliUtility;
 
 /**
  * Utility trait for CLI testing.
@@ -22,7 +21,7 @@ trait Cli
      */
     public function capture(callable $callback): string
     {
-        $output = Output::capture($callback);
-        return Effector::trimDecoration($output);
+        $output = CliUtility::capture($callback);
+        return CliUtility::trimDecoration($output);
     }
 }
