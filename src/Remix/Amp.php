@@ -19,6 +19,11 @@ class Amp
     private $effectors_dir = __DIR__ . '/Effectors';
     private $effectors_namespace = '\\Remix\\Effectors\\';
 
+    /**
+     * Create a mapping between command names and class names.
+     *
+     * @return void
+     */
     private function mapCommand()
     {
         foreach ($this->findCommands($this->effectors_dir) as $file) {
@@ -71,8 +76,10 @@ class Amp
     public function play(array $argv): int
     {
         try {
+            // load commands
             $this->mapCommand();
 
+            // get a command
             $command = array_shift($argv);
 
             // if no argument is given, show the command list
@@ -122,6 +129,7 @@ class Amp
                 Cli::lineDecorate($e->getMessage(), 'red', '', 'bold');
                 return 1;
             } elseif ($e instanceof RemixLogicException) {
+                // I think I made an implementation error somewhere...
                 $message = Cli::decorate('Internal fatal error in Remix', '', 'red', 'bold') . '' . Cli::decorate($e->getMessage(), 'red');
                 Cli::line($message);
                 Cli::lineDecorate('If you see this error, please report it.', 'red', '');
