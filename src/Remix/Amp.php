@@ -17,6 +17,16 @@ class Amp
     private $effectors_dir = __DIR__ . '/Effectors';
     private $effectors_namespace = '\\Remix\\Effectors\\';
 
+    public function __construct()
+    {
+        Delay::logBirth(static::class);
+    }
+
+    public function __destruct()
+    {
+        Delay::logDeath(static::class);
+    }
+
     /**
      * Create a mapping between command names and class names.
      *
@@ -122,6 +132,7 @@ class Amp
             $args = $this->parseArguments($argv);
 
             // play it loud
+            \Remix\Delay::log('BODY', "$class_name::{$method}()" . ' ' . json_encode($args));
             return $effector->$method($args);
         } catch (Throwable $e) {
             if ($e instanceof RemixRuntimeException) {

@@ -3,7 +3,6 @@
 namespace Remix\Tests;
 
 use PHPUnit\Framework\TestCase;
-use RemixUtilities\PHPUnit\Cli;
 use Remix\Amp;
 use ReflectionClass;
 use Remix\Exceptions\RemixLogicException;

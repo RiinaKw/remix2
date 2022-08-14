@@ -2,6 +2,8 @@
 
 namespace Remix;
 
+use RemixUtilities\Cli;
+
 /**
  * Remix Delay : log manager.
  *
@@ -22,9 +24,37 @@ final class Delay
      * @param string $message
      * @return void
      */
-    public static function log(string $message): void
+    public static function log(string $type, string $message): void
     {
-        static::$log[] = $message;
+        $log = [
+            'type' => $type,
+            'log' => $message,
+        ];
+        static::$log[] = $log;
+
+        if (php_sapi_name() == 'cli') {
+            $text_color = '';
+            $background_color = '';
+            switch ($log['type']) {
+                case 'BODY':
+                    $text_color = 'green';
+                    break;
+                case 'TRACE':
+                    $text_color = 'light_blue';
+                    break;
+                case 'MEMORY':
+                    $text_color = 'yellow';
+                    break;
+                case 'TIME':
+                    $text_color = 'purple';
+                    break;
+                case 'QUERY':
+                    $text_color = 'cyan';
+                    break;
+            }
+            $message = Cli::decorate($message, $text_color, $background_color);
+            file_put_contents('php://stderr', $message . "\n");
+        }
     }
 
     /**
@@ -65,7 +95,7 @@ final class Delay
      */
     public static function logBirth(string $classname): void
     {
-        static::$log[] = '[birth] ' . $classname;
+        static::log('TRACE', '[birth] ' . $classname);
     }
 
     /**
@@ -76,6 +106,6 @@ final class Delay
      */
     public static function logDeath(string $classname): void
     {
-        static::$log[] = '[death] ' . $classname;
+        static::log('TRACE', '[death] ' . $classname);
     }
 }

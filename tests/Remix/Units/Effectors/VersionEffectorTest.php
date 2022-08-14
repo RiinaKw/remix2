@@ -4,7 +4,6 @@ namespace Remix\Tests\Effectors;
 
 use PHPUnit\Framework\TestCase;
 use Remix\Effectors\Version as VersionEffector;
-use RemixUtilities\PHPUnit\Cli;
 
 class VersionEffectorTest extends TestCase
 {
