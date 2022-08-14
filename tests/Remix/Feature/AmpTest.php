@@ -42,14 +42,14 @@ class AmpTest extends TestCase
         $property->setAccessible(true);
         $property->setValue($amp, '\\Remix\\Distortions\\');
 
-        $amp->play(['amp']);
+        $amp->play([]);
     }
 
     public function testValid(): void
     {
         // Effector that certainly exists
         $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'version']);
+            (new Amp())->play(['version']);
         });
 
         $this->assertSame('Remix framework v0.0.1-alpha', $output);
@@ -59,17 +59,17 @@ class AmpTest extends TestCase
     {
         // Effector that certainly does not exist
         $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'boo']);
+            (new Amp())->play(['fizzle']);
         });
 
-        $this->assertSame("command 'boo' not exists", $output);
+        $this->assertSame("command 'fizzle' not exists", $output);
     }
 
     public function testNoise(): void
     {
         // Effector that throw an exception
         $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'noise']);
+            (new Amp())->play(['noise']);
         });
 
         $this->assertSame('Make some noise!!', $output);
@@ -80,14 +80,14 @@ class AmpTest extends TestCase
         $this->expectException(RemixLogicException::class);
 
         // Effector that throw an RemixLogicException
-        (new Amp())->play(['amp', 'noise:core']);
+        (new Amp())->play(['noise:core']);
     }
 
     public function testArguments(): void
     {
         // Effector that outputs change with arguments
         $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'noise', '--voice=Make it louder!!']);
+            (new Amp())->play(['noise', '--voice=Make it louder!!']);
         });
         $this->assertSame('Make it louder!!', $output);
     }
@@ -96,13 +96,13 @@ class AmpTest extends TestCase
     {
         // Effector that outputs change with switch
         $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'noise', '-C']);
+            (new Amp())->play(['noise', '-C']);
         });
         $this->assertSame('MAKE SOME NOISE!!', $output);
 
         // Effector that outputs change with switch and arguments
         $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'noise', '-C', '--voice=Make it louder!!']);
+            (new Amp())->play(['noise', '-C', '--voice=Make it louder!!']);
         });
         $this->assertSame('MAKE IT LOUDER!!', $output);
     }

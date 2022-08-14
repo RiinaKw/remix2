@@ -57,8 +57,6 @@ class Amp
         try {
             $this->mapCommand();
 
-            array_shift($argv);
-
             $command = array_shift($argv);
 
             if ($command === null) {
