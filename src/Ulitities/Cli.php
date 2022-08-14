@@ -64,6 +64,11 @@ class Cli extends Output
      */
     public const DECORATION_END = 'm';
 
+    public static function line(string $output = ''): void
+    {
+        echo $output, "\n";
+    }
+
     /**
      * Decorate the text.
      *

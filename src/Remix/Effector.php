@@ -2,6 +2,8 @@
 
 namespace Remix;
 
+use RemixUtilities\Cli;
+
 /**
  * Remix Effector : command line controller.
  *
@@ -43,9 +45,9 @@ abstract class Effector
      * @param string $message
      * @return self
      */
-    protected function line(string $message): self
+    protected function line(string $output = ''): self
     {
-        echo $message . "\n";
+        Cli::line($output);
         return $this;
     }
 }

@@ -61,17 +61,17 @@ class Amp
 
             if ($command === null) {
                 (new Effectors\Version())->index();
-                echo "\n";
-                echo Cli::decorate('Available commands', 'yellow') . "\n";
+                Cli::line();
+                Cli::line(Cli::decorate('Available commands', 'yellow'));
 
                 // show the title of command classes
                 foreach ($this->commands as $command => $class) {
                     $effector = new $class();
-                    echo '  ' . Cli::decorate($command, 'green', '', 'bold') . "\n";
+                    Cli::line(Cli::decorate('  ' . $command, 'green', '', 'bold'));
 
                     foreach ($effector->available() as $subcommand => $description) {
                         $name = Cli::decorate($command . ($subcommand ? ':' . $subcommand : ''), 'yellow', '', 'bold');
-                        echo "    {$name} : {$description}\n";
+                        Cli::line("    {$name} : {$description}");
                     }
                 }
                 return 0;
@@ -107,17 +107,13 @@ class Amp
         } catch (Throwable $e) {
             if ($e instanceof RemixRuntimeException) {
                 // runtime error, e.g. wrong command name
-                echo Cli::decorate($e->getMessage(), 'red', '', 'bold');
-                echo "\n";
+                Cli::line(Cli::decorate($e->getMessage(), 'red', '', 'bold'));
                 return 1;
             } elseif ($e instanceof RemixLogicException) {
-                echo Cli::decorate('Internal fatal error in Remix', '', 'red', 'bold');
-                echo ' : ';
-                echo Cli::decorate($e->getMessage(), 'red');
-                echo "\n";
-                echo Cli::decorate('If you see this error, please report it.', 'red', '');
-                echo "\n";
-                echo "\n";
+                $message = Cli::decorate('Internal fatal error in Remix', '', 'red', 'bold') . '' . Cli::decorate($e->getMessage(), 'red');
+                Cli::line($message);
+                Cli::line(Cli::decorate('If you see this error, please report it.', 'red', ''));
+                Cli::line();
             }
             throw $e;
         }
