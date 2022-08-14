@@ -22,7 +22,7 @@ class Amp
     {
         $dir = realpath(static::EFFECTORS_DIR);
 
-        foreach($this->findCommands($dir) as $file) {
+        foreach ($this->findCommands($dir) as $file) {
             // is it the php file?
             if (substr($file, -4) !== '.php') {
                 continue;
@@ -63,20 +63,20 @@ class Amp
             if ($command === null) {
                 (new Effectors\Version())->index();
                 echo "\n\n";
-                echo Effector::decorate('Available commands', 'yellow'). "\n";
+                echo Effector::decorate('Available commands', 'yellow') . "\n";
 
                 // show the title of command classes
                 foreach ($this->commands as $command => $class) {
                     $effector = new $class();
 
-                    echo '  ' . Effector::decorate($command, 'green', '', 'bold'). "\n";
+                    echo '  ' . Effector::decorate($command, 'green', '', 'bold') . "\n";
                     echo '    ' . $effector->title() . "\n";
                 }
                 return 0;
             }
 
             if (strpos($command, ':') !== false) {
-                list($class, $method) = explode(':', $command, 2);;
+                list($class, $method) = explode(':', $command, 2);
             } else {
                 $class = $command;
                 $method = 'index';
@@ -134,7 +134,7 @@ class Amp
             if (strpos($file, '.') === 0) {
                 continue;
             }
-            $path =realpath($dir . '/' . $file);
+            $path = realpath($dir . '/' . $file);
             if (is_dir($path)) {
                 $arr = $this->findCommands($path);
                 $files += $arr;
@@ -161,7 +161,7 @@ class Amp
             if (strpos($arg, '--') === 0) {
                 list($key, $value) = explode('=', ltrim($arg, '-'), 2);
                 $args[$key] = $value;
-            } else if (strpos($arg, '-') === 0) {
+            } elseif (strpos($arg, '-') === 0) {
                 $switch = ltrim($arg, '-');
                 if (strlen($switch) > 1) {
                     throw new RemixRuntimeException("switch '{$arg}' not acceptable");
