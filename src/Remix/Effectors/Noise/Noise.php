@@ -4,7 +4,7 @@ namespace Remix\Effectors\Noise;
 
 use Remix\Effector;
 use Remix\Exceptions\RemixRuntimeException;
-use LogicException;
+use Remix\Exceptions\RemixLogicException;
 
 /**
  * Remix Noise Effector : throw exceptions for debugging.
@@ -40,6 +40,6 @@ class Noise extends Effector
      */
     public function core(): int
     {
-        throw new LogicException('This is a test of logic exception.');
+        throw new RemixLogicException('This is a test of logic exception.');
     }
 }

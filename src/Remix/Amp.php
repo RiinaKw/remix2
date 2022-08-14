@@ -15,27 +15,25 @@ class Amp
 {
     private $commands = [];
 
-    private const EFFECTORS_DIR = __DIR__ . '/Effectors';
-    private const EFFECTOR_NAMESPACE = '\\Remix\\Effectors\\';
+    private $effectors_dir = __DIR__ . '/Effectors';
+    private $effectors_namespace = '\\Remix\\Effectors\\';
 
-    public function __construct()
+    private function mapCommand()
     {
-        $dir = realpath(static::EFFECTORS_DIR);
-
-        foreach ($this->findCommands($dir) as $file) {
+        foreach ($this->findCommands($this->effectors_dir) as $file) {
             // is it the php file?
             if (substr($file, -4) !== '.php') {
                 continue;
             }
             // trim directory path and first slash
-            $class = substr($file, strlen($dir) + 1);
+            $class = substr($file, strlen($this->effectors_dir) + 1);
             // trim extensioin
             $class = substr($class, 0, -4);
             // slash to backslash
             $class = str_replace('/', '\\', $class);
 
             // exists class?
-            $class_with_ns = static::EFFECTOR_NAMESPACE . $class;
+            $class_with_ns = $this->effectors_namespace . $class;
             if (! class_exists($class_with_ns)) {
                 throw new RemixLogicException("class '{$class_with_ns}' not found");
             }
@@ -56,6 +54,8 @@ class Amp
     public function play(array $argv): int
     {
         try {
+            $this->mapCommand();
+
             array_shift($argv);
 
             $command = array_shift($argv);

@@ -5,11 +5,45 @@ namespace Remix\Tests;
 use PHPUnit\Framework\TestCase;
 use RemixUtilities\PHPUnit\Cli;
 use Remix\Amp;
-use LogicException;
+use ReflectionClass;
+use Remix\Exceptions\RemixLogicException;
 
 class AmpTest extends TestCase
 {
     use Cli;
+
+    public function testInvalidDirectory(): void
+    {
+        $this->expectException(RemixLogicException::class);
+        $this->expectExceptionMessage("'/track/is/muted' is not directory");
+
+        $amp = new Amp();
+
+        $reflection = new ReflectionClass(Amp::class);
+        $property = $reflection->getProperty('effectors_dir');
+        $property->setAccessible(true);
+        $property->setValue($amp, '/track/is/muted');
+
+        $amp->play(['amp']);
+    }
+
+    public function testInvalidNamespace(): void
+    {
+        $this->expectException(RemixLogicException::class);
+        // Since there is no way to check "if the namespace exists," I don't know which class will be called first.
+        // Therefore, the exact exception message cannot be identified...
+        $this->expectExceptionMessage("class '\\Remix\\Distortions\\");
+        $this->expectExceptionMessage("not found");
+
+        $amp = new Amp();
+
+        $reflection = new ReflectionClass(Amp::class);
+        $property = $reflection->getProperty('effectors_namespace');
+        $property->setAccessible(true);
+        $property->setValue($amp, '\\Remix\\Distortions\\');
+
+        $amp->play(['amp']);
+    }
 
     public function testValid(): void
     {
@@ -43,9 +77,9 @@ class AmpTest extends TestCase
 
     public function testNoisecore(): void
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(RemixLogicException::class);
 
-        // Effector that throw an LogicException
+        // Effector that throw an RemixLogicException
         (new Amp())->play(['amp', 'noise:core']);
     }
 
