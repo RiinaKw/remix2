@@ -67,9 +67,12 @@ class Amp
                 // show the title of command classes
                 foreach ($this->commands as $command => $class) {
                     $effector = new $class();
-
                     echo '  ' . Cli::decorate($command, 'green', '', 'bold') . "\n";
-                    echo '    ' . $effector->title() . "\n";
+
+                    foreach ($effector->available() as $subcommand => $description) {
+                        $name = Cli::decorate($command . ($subcommand ? ':' . $subcommand : ''), 'yellow', '', 'bold');
+                        echo "    {$name} : {$description}\n";
+                    }
                 }
                 return 0;
             }

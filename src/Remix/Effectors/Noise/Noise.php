@@ -14,9 +14,12 @@ use Remix\Exceptions\RemixLogicException;
 class Noise extends Effector
 {
     /**
-     * Title of Effector.
+     * Available subcommands and descriptions.
      */
-    protected const TITLE = 'Always throw an exception.';
+    protected $available = [
+        ''      => 'Always throw an runtime exception.',
+        'core'  => 'Always throw an logic exception.',
+    ];
 
     /**
      * Throw a general exception.

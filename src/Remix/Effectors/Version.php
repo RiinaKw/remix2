@@ -13,9 +13,11 @@ use RemixUtilities\Cli;
 class Version extends Effector
 {
     /**
-     * Title of Effector.
+     * Available subcommands and descriptions.
      */
-    protected const TITLE = 'Show the version of Remix framework.';
+    protected $available = [
+        '' => 'Show the version of Remix framework.',
+    ];
 
     /**
      * Show the version of Remix framework.

@@ -10,18 +10,31 @@ namespace Remix;
 abstract class Effector
 {
     /**
-     * Title of Effector.
+     * Available subcommands and descriptions.
      */
-    protected const TITLE = 'this effector is abstract class';
+    protected $available = [
+        '' => 'This Effector is abstract class, prease override.',
+    ];
 
     /**
-     * Get title of this Effector.
+     * Get all available subcommands.
      *
-     * @return string
+     * @return array<string, string>
      */
-    public function title(): string
+    public function available(): array
     {
-        return static::TITLE;
+        return $this->available;
+    }
+
+    /**
+     * Get description of the subcomman.
+     *
+     * @param string $subcommands
+     * @return string|null
+     */
+    public function description(string $subcommands): ?string
+    {
+        return $this->available[$subcommands] ?? null;
     }
 
     /**
