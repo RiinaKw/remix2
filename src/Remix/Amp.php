@@ -15,9 +15,12 @@ class Amp
 {
     private $commands = [];
 
+    private const EFFECTORS_DIR = __DIR__ . '/Effectors';
+    private const EFFECTOR_NAMESPACE = '\\Remix\\Effectors\\';
+
     public function __construct()
     {
-        $dir = realpath(__DIR__ . '/Effectors');
+        $dir = realpath(static::EFFECTORS_DIR);
 
         foreach($this->findCommands($dir) as $file) {
             // is it the php file?
@@ -32,8 +35,7 @@ class Amp
             $class = str_replace('/', '\\', $class);
 
             // exists class?
-            $namespace = '\\Remix\\Effectors\\';
-            $class_with_ns = $namespace . $class;
+            $class_with_ns = static::EFFECTOR_NAMESPACE . $class;
             if (! class_exists($class_with_ns)) {
                 throw new RemixLogicException("class '{$class_with_ns}' not found");
             }
