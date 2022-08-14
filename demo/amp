@@ -2,4 +2,5 @@
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
+array_shift($argv);
 (new \Remix\Amp())->play($argv);

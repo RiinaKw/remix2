@@ -5,71 +5,102 @@ namespace Remix\Tests;
 use PHPUnit\Framework\TestCase;
 use RemixUtilities\PHPUnit\Cli;
 use Remix\Amp;
-use LogicException;
+use ReflectionClass;
+use Remix\Exceptions\RemixLogicException;
 
 class AmpTest extends TestCase
 {
-    use Cli;
+    public function testInvalidDirectory(): void
+    {
+        $this->expectException(RemixLogicException::class);
+        $this->expectExceptionMessage("'/track/is/muted' is not directory");
+        $this->expectOutputRegex('/Internal fatal error in Remix/');
+
+        $amp = new Amp();
+
+        $reflection = new ReflectionClass(Amp::class);
+        $property = $reflection->getProperty('effectors_dir');
+        $property->setAccessible(true);
+        $property->setValue($amp, '/track/is/muted');
+
+        $amp->play(['amp']);
+    }
+
+    public function testInvalidNamespace(): void
+    {
+        $this->expectException(RemixLogicException::class);
+        // Since there is no way to check "if the namespace exists," I don't know which class will be called first.
+        // Therefore, the exact exception message cannot be identified...
+        $this->expectExceptionMessage("class '\\Remix\\Distortions\\");
+        $this->expectExceptionMessage("not found");
+        $this->expectOutputRegex('/Internal fatal error in Remix/');
+
+        $amp = new Amp();
+
+        $reflection = new ReflectionClass(Amp::class);
+        $property = $reflection->getProperty('effectors_namespace');
+        $property->setAccessible(true);
+        $property->setValue($amp, '\\Remix\\Distortions\\');
+
+        $amp->play(['amp']);
+    }
 
     public function testValid(): void
     {
-        // Effector that certainly exists
-        $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'version']);
-        });
+        $this->expectOutputRegex('/Remix framework/');
+        $this->expectOutputRegex('/v0\.0\.1\-alpha/');
 
-        $this->assertSame('Remix framework v0.0.1-alpha', $output);
+        // Effector that certainly exists
+        (new Amp())->play(['version']);
     }
 
     public function testInvalid(): void
     {
-        // Effector that certainly does not exist
-        $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'boo']);
-        });
+        $this->expectOutputRegex("/command 'fizzle' not exists/");
 
-        $this->assertSame("command 'boo' not exists", $output);
+        // Effector that certainly does not exist
+        (new Amp())->play(['fizzle']);
     }
 
     public function testNoise(): void
     {
-        // Effector that throw an exception
-        $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'noise']);
-        });
+        $this->expectOutputRegex("/Make some noise!!/");
 
-        $this->assertSame('Make some noise!!', $output);
+        // Effector that throw an exception
+        (new Amp())->play(['noise']);
     }
 
     public function testNoisecore(): void
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(RemixLogicException::class);
+        $this->expectOutputRegex('/Internal fatal error in Remix/');
+        $this->expectOutputRegex('/This is a test of logic exception./');
 
-        // Effector that throw an LogicException
-        (new Amp())->play(['amp', 'noise:core']);
+        // Effector that throw an RemixLogicException
+        (new Amp())->play(['noise:core']);
     }
 
     public function testArguments(): void
     {
+        $this->expectOutputRegex('/Make it louder!!/');
+
         // Effector that outputs change with arguments
-        $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'noise', '--voice=Make it louder!!']);
-        });
-        $this->assertSame('Make it louder!!', $output);
+        (new Amp())->play(['noise', '--voice=Make it louder!!']);
     }
 
     public function testSwitch(): void
     {
+        $this->expectOutputRegex('/MAKE SOME NOISE!!/');
+
         // Effector that outputs change with switch
-        $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'noise', '-C']);
-        });
-        $this->assertSame('MAKE SOME NOISE!!', $output);
+        (new Amp())->play(['noise', '-C']);
+    }
+
+    public function testArgumentsAndSwitch(): void
+    {
+        $this->expectOutputRegex('/MAKE IT LOUDER!!/');
 
         // Effector that outputs change with switch and arguments
-        $output = $this->capture(function () {
-            (new Amp())->play(['amp', 'noise', '-C', '--voice=Make it louder!!']);
-        });
-        $this->assertSame('MAKE IT LOUDER!!', $output);
+        (new Amp())->play(['noise', '-C', '--voice=Make it louder!!']);
     }
 }

@@ -3,6 +3,7 @@
 namespace Remix\Effectors;
 
 use Remix\Effector;
+use RemixUtilities\Cli;
 
 /**
  * Remix Version Effector : show the version of Remix.
@@ -12,9 +13,11 @@ use Remix\Effector;
 class Version extends Effector
 {
     /**
-     * Title of Effector.
+     * Available subcommands and descriptions.
      */
-    protected const TITLE = 'Show the version of Remix framework.';
+    protected $available = [
+        '' => 'Show the version of Remix framework.',
+    ];
 
     /**
      * Show the version of Remix framework.
@@ -23,7 +26,7 @@ class Version extends Effector
      */
     public function index(): int
     {
-        $version = static::decorate('v0.0.1-alpha', 'yellow', 'green', 'bold');
+        $version = Cli::decorate('v0.0.1-alpha', 'yellow', 'green', 'bold');
         $this->line('Remix framework ' . $version);
         return 0;
     }

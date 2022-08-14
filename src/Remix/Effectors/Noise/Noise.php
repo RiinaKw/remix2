@@ -1,10 +1,10 @@
 <?php
 
-namespace Remix\Effectors;
+namespace Remix\Effectors\Noise;
 
 use Remix\Effector;
 use Remix\Exceptions\RemixRuntimeException;
-use LogicException;
+use Remix\Exceptions\RemixLogicException;
 
 /**
  * Remix Noise Effector : throw exceptions for debugging.
@@ -14,9 +14,12 @@ use LogicException;
 class Noise extends Effector
 {
     /**
-     * Title of Effector.
+     * Available subcommands and descriptions.
      */
-    protected const TITLE = 'Always throw an exception.';
+    protected $available = [
+        ''      => 'Always throw an runtime exception.',
+        'core'  => 'Always throw an logic exception.',
+    ];
 
     /**
      * Throw a general exception.
@@ -40,6 +43,6 @@ class Noise extends Effector
      */
     public function core(): int
     {
-        throw new LogicException('This is a test of logic exception.');
+        throw new RemixLogicException('This is a test of logic exception.');
     }
 }
