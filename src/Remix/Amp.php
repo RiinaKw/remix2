@@ -30,8 +30,42 @@ class Amp
                 echo "\n\n";
                 echo Effector::decorate('Available commands', 'yellow'). "\n";
 
-                foreach($this->findCommands(__DIR__ . '/Effectors') as $command => $class) {
-                    $effector = new $class();
+                // find the classes of the command
+                $dir = realpath(__DIR__ . '/Effectors');
+                $this->findCommands($dir);
+
+                $commands = [];
+                foreach($this->findCommands($dir) as $file) {
+                    // is it the php file?
+                    if (substr($file, -4) !== '.php') {
+                        continue;
+                    }
+                    // trim directory path and first slash
+                    $class = substr($file, strlen($dir) + 1);
+                    // trim extensioin
+                    $class = substr($class, 0, -4);
+                    // slash to backslash
+                    $class = str_replace('/', '\\', $class);
+
+                    // class name to command name
+                    $arr = explode('\\', $class);
+                    $command = strtolower(array_pop($arr));
+
+                    // exists class?
+                    $ns = '\\Remix\\Effectors\\';
+                    $class_with_ns = $ns . $class;
+                    if (! class_exists($class_with_ns)) {
+                        throw new \Exception("class '{$class_with_ns}' not found");
+                    }
+
+                    // mapping class names and commands
+                    $commands[$command] = $class_with_ns;
+                }
+
+                // show the title of command classes
+                foreach ($commands as $command => $class) {
+                    $effector = new ($class_with_ns)();
+
                     echo '  ' . Effector::decorate($command, 'green', '', 'bold'). "\n";
                     echo '    ' . $effector->title() . "\n";
                 }
@@ -71,18 +105,36 @@ class Amp
         }
     }
 
-    private function findCommands(string $dir)
+    /**
+     * Recursively search command classes.
+     *
+     * @param string $dir
+     * @return array<int, string>
+     */
+    private function findCommands(string $dir): array
     {
-        foreach (glob($dir . '/*.php') as $file) {
-            $filename = ucfirst(basename($file));
-            $classname = explode('.', $filename)[0];
-            $class = '\\Remix\\Effectors\\' . $classname;
-
-            $command = strtolower($classname);
-
-            $commands[$command] = $class;
+        if (! is_dir($dir)) {
+            throw new \Exception("'{$dir}' is not directory");
         }
-        return $commands;
+        $dir = realpath($dir);
+
+        $files = [];
+        $dh = opendir($dir);
+        while (($file = readdir($dh)) !== false) {
+            if (strpos($file, '.') === 0) {
+                continue;
+            }
+            $path =realpath($dir . '/' . $file);
+            if (is_dir($path)) {
+                $arr = $this->findCommands($path);
+                $files += $arr;
+            } else {
+                $files[] = realpath($dir . '/' . $file);
+            }
+        }
+        closedir($dh);
+
+        return $files;
     }
 
     /**
