@@ -29,14 +29,10 @@ class Amp
                 (new Effectors\Version())->index();
                 echo "\n\n";
                 echo Effector::decorate('Available commands', 'yellow'). "\n";
-                foreach (glob(__DIR__ . '/Effectors/*.php') as $file) {
-                    $filename = ucfirst(basename($file));
-                    $classname = explode('.', $filename)[0];
-                    $class = '\\Remix\\Effectors\\' . $classname;
-                    $effector = new $class();
 
-                    $command_name = strtolower($classname);
-                    echo '  ' . Effector::decorate($command_name, 'green', '', 'bold'). "\n";
+                foreach($this->findCommands(__DIR__ . '/Effectors') as $command => $class) {
+                    $effector = new $class();
+                    echo '  ' . Effector::decorate($command, 'green', '', 'bold'). "\n";
                     echo '    ' . $effector->title() . "\n";
                 }
                 return 0;
@@ -73,6 +69,20 @@ class Amp
                 throw $e;
             }
         }
+    }
+
+    private function findCommands(string $dir)
+    {
+        foreach (glob($dir . '/*.php') as $file) {
+            $filename = ucfirst(basename($file));
+            $classname = explode('.', $filename)[0];
+            $class = '\\Remix\\Effectors\\' . $classname;
+
+            $command = strtolower($classname);
+
+            $commands[$command] = $class;
+        }
+        return $commands;
     }
 
     /**
