@@ -3,6 +3,7 @@
 namespace Remix;
 
 use Remix\Exceptions\RemixRuntimeException;
+use Remix\Exceptions\RemixLogicException;
 use Throwable;
 
 /**
@@ -34,7 +35,7 @@ class Amp
             $namespace = '\\Remix\\Effectors\\';
             $class_with_ns = $namespace . $class;
             if (! class_exists($class_with_ns)) {
-                throw new \Exception("class '{$class_with_ns}' not found");
+                throw new RemixLogicException("class '{$class_with_ns}' not found");
             }
 
             // mapping class names and commands
@@ -121,7 +122,7 @@ class Amp
     private function findCommands(string $dir): array
     {
         if (! is_dir($dir)) {
-            throw new \Exception("'{$dir}' is not directory");
+            throw new RemixLogicException("'{$dir}' is not directory");
         }
         $dir = realpath($dir);
 
