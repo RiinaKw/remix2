@@ -47,6 +47,22 @@ class Amp
     }
 
     /**
+     * Show details of available subcommands
+     *
+     * @param string $command
+     * @param string $class
+     * @return void
+     */
+    protected function showSubcommands(string $command, string $class)
+    {
+        $effector = new $class();
+        foreach ($effector->available() as $subcommand => $description) {
+            $name = Cli::decorate($command . ($subcommand ? ':' . $subcommand : ''), 'yellow', '', 'bold');
+            Cli::line("    {$name} : {$description}");
+        }
+    }
+
+    /**
      * Play the Effector specified by the command.
      *
      * @param array $argv
@@ -59,24 +75,21 @@ class Amp
 
             $command = array_shift($argv);
 
+            // if no argument is given, show the command list
             if ($command === null) {
                 (new Effectors\Version())->index();
                 Cli::line();
                 Cli::lineDecorate('Available commands', 'yellow');
 
-                // show the title of command classes
+                // show the details of command classes
                 foreach ($this->commands as $command => $class) {
-                    $effector = new $class();
                     Cli::lineDecorate('  ' . $command, 'green', '', 'bold');
-
-                    foreach ($effector->available() as $subcommand => $description) {
-                        $name = Cli::decorate($command . ($subcommand ? ':' . $subcommand : ''), 'yellow', '', 'bold');
-                        Cli::line("    {$name} : {$description}");
-                    }
+                    $this->showSubcommands($command, $class);
                 }
                 return 0;
             }
 
+            // split into command name and method
             if (strpos($command, ':') !== false) {
                 list($class, $method) = explode(':', $command, 2);
             } else {
@@ -102,8 +115,7 @@ class Amp
             $args = $this->parseArguments($argv);
 
             // play it loud
-            $result = $effector->$method($args);
-            return $result;
+            return $effector->$method($args);
         } catch (Throwable $e) {
             if ($e instanceof RemixRuntimeException) {
                 // runtime error, e.g. wrong command name
