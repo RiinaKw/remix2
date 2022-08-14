@@ -4,9 +4,15 @@ namespace Remix\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Remix\Audio;
+use Remix\Delay;
 
 class AudioTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        Delay::mute();
+    }
+
     /**
     * @runInSeparateProcess
     */

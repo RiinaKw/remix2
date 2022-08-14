@@ -18,6 +18,13 @@ final class Delay
      */
     private static $log = [];
 
+    private static $handle = 'php://stderr';
+
+    public static function mute(): void
+    {
+        static::$handle = '.delay.phpunit.cache';
+    }
+
     /**
      * Add a log.
      *
@@ -53,7 +60,7 @@ final class Delay
                     break;
             }
             $message = Cli::decorate($message, $text_color, $background_color);
-            file_put_contents('php://stderr', $message . "\n");
+            file_put_contents(static::$handle, $message . "\n");
         }
     }
 

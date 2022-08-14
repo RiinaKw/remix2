@@ -8,6 +8,11 @@ use Remix\Delay;
 
 class AudioDelayTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        Delay::mute();
+    }
+
     /**
     * @runInSeparateProcess
      *

@@ -4,9 +4,15 @@ namespace Remix\Tests\Effectors;
 
 use PHPUnit\Framework\TestCase;
 use Remix\Effectors\Version as VersionEffector;
+use Remix\Delay;
 
 class VersionEffectorTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        Delay::mute();
+    }
+
     public function testIndex(): void
     {
         $this->expectOutputRegex('/Remix framework/');

@@ -4,11 +4,17 @@ namespace Remix\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Remix\Amp;
+use Remix\Delay;
 use ReflectionClass;
 use Remix\Exceptions\RemixLogicException;
 
 class AmpTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        Delay::mute();
+    }
+
     public function testInvalidDirectory(): void
     {
         $this->expectException(RemixLogicException::class);

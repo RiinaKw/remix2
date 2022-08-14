@@ -10,6 +10,7 @@ class DelayTest extends TestCase
     protected function setUp(): void
     {
         Delay::flush();
+        Delay::mute();
     }
 
     public function testNoLog(): void
