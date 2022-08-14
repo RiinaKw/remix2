@@ -4,7 +4,7 @@ namespace Remix\Tests;
 
 use Remix\Utilities\PHPUnit\BaseTestCase;
 use Remix\Amp;
-use ReflectionClass;
+use Remix\Utilities\Reflection\ReflectionObject;
 use Remix\Exceptions\RemixLogicException;
 
 class AmpTest extends BaseTestCase
@@ -17,10 +17,8 @@ class AmpTest extends BaseTestCase
 
         $amp = new Amp();
 
-        $reflection = new ReflectionClass(Amp::class);
-        $property = $reflection->getProperty('effectors_dir');
-        $property->setAccessible(true);
-        $property->setValue($amp, '/track/is/muted');
+        // rewrite lthe property by Reflection
+        (new ReflectionObject($amp))->setProp('effectors_dir', '/track/is/muted');
 
         $amp->play(['amp']);
     }
@@ -36,10 +34,8 @@ class AmpTest extends BaseTestCase
 
         $amp = new Amp();
 
-        $reflection = new ReflectionClass(Amp::class);
-        $property = $reflection->getProperty('effectors_namespace');
-        $property->setAccessible(true);
-        $property->setValue($amp, '\\Remix\\Distortions\\');
+        // rewrite lthe property by Reflection
+        (new ReflectionObject($amp))->setProp('effectors_namespace', '\\Remix\\Distortions\\');
 
         $amp->play(['amp']);
     }
