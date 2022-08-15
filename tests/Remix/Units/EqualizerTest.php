@@ -43,6 +43,18 @@ class EqualizerTest extends BaseTestCase
         $this->assertSame(['test arg 1', 2], $instance->get());
     }
 
+    public function testNonExists(): void
+    {
+        $classname = NonExistsClass::class;
+
+        $this->expectException(RemixLogicException::class);
+        $this->expectExceptionMessage("Class '{$classname}' not found");
+
+        $equalizer = new Equalizer();
+
+        $equalizer->instance($classname, 'test arg 1', 2);
+    }
+
     public function testWithoutGear(): void
     {
         $classname = ClassWithoutGear::class;
