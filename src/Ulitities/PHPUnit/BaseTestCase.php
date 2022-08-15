@@ -3,6 +3,7 @@
 namespace Remix\Utilities\PHPUnit;
 
 use PHPUnit\Framework\TestCase;
+use Remix\Audio;
 use Remix\Delay;
 
 /**
@@ -14,6 +15,8 @@ class BaseTestCase extends TestCase
 {
     protected function setUp(): void
     {
+        Audio::destroy();
+        Delay::flush();
         Delay::mute();
     }
 }
