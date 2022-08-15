@@ -83,7 +83,7 @@ class Amp
      * @param array $argv
      * @return integer
      */
-    public function play(array $argv): int
+    public function play(array $argv = []): int
     {
         try {
             // load commands

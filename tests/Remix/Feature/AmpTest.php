@@ -20,7 +20,7 @@ class AmpTest extends BaseTestCase
         // rewrite lthe property by Reflection
         (new ReflectionObject($amp))->setProp('effectors_dir', '/track/is/muted');
 
-        $amp->play(['amp']);
+        $amp->play();
     }
 
     public function testInvalidNamespace(): void
@@ -37,7 +37,7 @@ class AmpTest extends BaseTestCase
         // rewrite lthe property by Reflection
         (new ReflectionObject($amp))->setProp('effectors_namespace', '\\Remix\\Distortions\\');
 
-        $amp->play(['amp']);
+        $amp->play();
     }
 
     public function testValid(): void
