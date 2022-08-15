@@ -24,7 +24,7 @@ class AudioAmpTest extends BaseTestCase
         // just to suppress the STDERR
         $this->expectOutputRegex("//");
 
-        $args = ['noise', '-C', '--voice=Make it louder!!'];
+        $args = ['amp', 'noise', '-C', '--voice=Make it louder!!'];
         Audio::instance()->amp()->play($args);
         Audio::destroy();
 

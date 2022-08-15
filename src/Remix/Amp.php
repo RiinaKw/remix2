@@ -79,6 +79,9 @@ class Amp extends Gear
             // load commands
             $commands = $this->mapCommand();
 
+            // the first argument is always "amp"
+            array_shift($argv);
+
             // get a command
             $command = array_shift($argv);
 

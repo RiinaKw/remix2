@@ -15,7 +15,7 @@ class AmpDelayTest extends BaseTestCase
         $this->expectOutputRegex("//");
 
         // play thee Effector
-        (new Amp())->play(['noise', '-C', '--voice=Make it louder!!']);
+        (new Amp())->play(['amp', 'noise', '-C', '--voice=Make it louder!!']);
 
         $expected = [
             ['type' => 'TRACE', 'log' => '[birth] ' . Amp::class],

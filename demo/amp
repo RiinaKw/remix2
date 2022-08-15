@@ -14,5 +14,4 @@ if ($pos !== false) {
     Delay::mute();
 }
 
-array_shift($argv);
 Audio::instance()->amp()->play($argv);
