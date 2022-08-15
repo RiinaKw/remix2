@@ -9,7 +9,7 @@ use Remix\Utilities\Cli;
  *
  * @package Remix\Cli
  */
-abstract class Effector
+abstract class Effector extends Gear
 {
     /**
      * Available subcommands and descriptions.
@@ -17,16 +17,6 @@ abstract class Effector
     protected $available = [
         '' => 'This Effector is abstract class, prease override.',
     ];
-
-    public function __construct()
-    {
-        Delay::logBirth(static::class);
-    }
-
-    public function __destruct()
-    {
-        Delay::logDeath(static::class);
-    }
 
     /**
      * Get all available subcommands.

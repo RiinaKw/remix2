@@ -20,7 +20,7 @@ class AmpTest extends BaseTestCase
         // rewrite lthe property by Reflection
         (new ReflectionObject($amp))->setProp('effectors_dir', '/track/is/muted');
 
-        $amp->play(['amp']);
+        $amp->play();
     }
 
     public function testInvalidNamespace(): void
@@ -37,7 +37,7 @@ class AmpTest extends BaseTestCase
         // rewrite lthe property by Reflection
         (new ReflectionObject($amp))->setProp('effectors_namespace', '\\Remix\\Distortions\\');
 
-        $amp->play(['amp']);
+        $amp->play();
     }
 
     public function testValid(): void
@@ -46,7 +46,7 @@ class AmpTest extends BaseTestCase
         $this->expectOutputRegex('/v0\.0\.1\-alpha/');
 
         // Effector that certainly exists
-        (new Amp())->play(['version']);
+        (new Amp())->play(['amp', 'version']);
     }
 
     public function testInvalid(): void
@@ -54,7 +54,7 @@ class AmpTest extends BaseTestCase
         $this->expectOutputRegex("/command 'fizzle' not exists/");
 
         // Effector that certainly does not exist
-        (new Amp())->play(['fizzle']);
+        (new Amp())->play(['amp', 'fizzle']);
     }
 
     public function testNoise(): void
@@ -62,7 +62,7 @@ class AmpTest extends BaseTestCase
         $this->expectOutputRegex("/Make some noise!!/");
 
         // Effector that throw an exception
-        (new Amp())->play(['noise']);
+        (new Amp())->play(['amp', 'noise']);
     }
 
     public function testNoisecore(): void
@@ -72,7 +72,7 @@ class AmpTest extends BaseTestCase
         $this->expectOutputRegex('/This is a test of logic exception./');
 
         // Effector that throw an RemixLogicException
-        (new Amp())->play(['noise:core']);
+        (new Amp())->play(['amp', 'noise:core']);
     }
 
     public function testArguments(): void
@@ -80,7 +80,7 @@ class AmpTest extends BaseTestCase
         $this->expectOutputRegex('/Make it louder!!/');
 
         // Effector that outputs change with arguments
-        (new Amp())->play(['noise', '--voice=Make it louder!!']);
+        (new Amp())->play(['amp', 'noise', '--voice=Make it louder!!']);
     }
 
     public function testSwitch(): void
@@ -88,7 +88,7 @@ class AmpTest extends BaseTestCase
         $this->expectOutputRegex('/MAKE SOME NOISE!!/');
 
         // Effector that outputs change with switch
-        (new Amp())->play(['noise', '-C']);
+        (new Amp())->play(['amp', 'noise', '-C']);
     }
 
     public function testArgumentsAndSwitch(): void
@@ -96,6 +96,6 @@ class AmpTest extends BaseTestCase
         $this->expectOutputRegex('/MAKE IT LOUDER!!/');
 
         // Effector that outputs change with switch and arguments
-        (new Amp())->play(['noise', '-C', '--voice=Make it louder!!']);
+        (new Amp())->play(['amp', 'noise', '-C', '--voice=Make it louder!!']);
     }
 }
