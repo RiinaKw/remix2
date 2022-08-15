@@ -132,6 +132,7 @@ class Amp
             $args = $this->parseArguments($argv);
 
             // play it loud
+            $class_name = ltrim($class_name, '\\');
             \Remix\Delay::log('BODY', "$class_name::{$method}()" . ' ' . json_encode($args));
             return $effector->$method($args);
         } catch (Throwable $e) {
