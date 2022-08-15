@@ -12,20 +12,10 @@ use Throwable;
  *
  * @package Remix\Cli
  */
-class Amp
+class Amp extends Gear
 {
     private $effectors_dir = __DIR__ . '/Effectors';
     private $effectors_namespace = '\\Remix\\Effectors\\';
-
-    public function __construct()
-    {
-        Delay::logBirth(static::class);
-    }
-
-    public function __destruct()
-    {
-        Delay::logDeath(static::class);
-    }
 
     /**
      * Create a mapping between command names and class names.
@@ -92,6 +82,14 @@ class Amp
             // get a command
             $command = array_shift($argv);
 
+            // parse command arguments
+            $args = $this->parseArguments($argv);
+
+            // It's too late to mute here
+            //if ($args['args']['remix-ignore-delay'] ?? false) {
+            //    Delay::mute();
+            //}
+
             // if no argument is given, show the command list
             if ($command === null) {
                 (new Effectors\Version())->index();
@@ -128,12 +126,9 @@ class Amp
                 throw new RemixRuntimeException("command '{$command}' not exists");
             }
 
-            // parse command arguments
-            $args = $this->parseArguments($argv);
-
             // play it loud
             $class_name = ltrim($class_name, '\\');
-            \Remix\Delay::log('BODY', "$class_name::{$method}()" . ' ' . json_encode($args));
+            Delay::log('BODY', "$class_name::{$method}()" . ' ' . json_encode($args));
             return $effector->$method($args);
         } catch (Throwable $e) {
             if ($e instanceof RemixRuntimeException) {
@@ -197,7 +192,13 @@ class Amp
         $switches = [];
         foreach ($argv as $arg) {
             if (strpos($arg, '--') === 0) {
-                list($key, $value) = explode('=', ltrim($arg, '-'), 2);
+                $arg = ltrim($arg, '-');
+                if (strpos($arg, '=') === false) {
+                    $key = $arg;
+                    $value = true;
+                } else {
+                    list($key, $value) = explode('=', $arg, 2);
+                }
                 $args[$key] = $value;
             } elseif (strpos($arg, '-') === 0) {
                 $switch = ltrim($arg, '-');
