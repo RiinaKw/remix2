@@ -2,5 +2,17 @@
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
+use Remix\Audio;
+use Remix\Delay;
+
+// debug option
+$pos = array_search('--remix-debug-delay', $argv);
+if ($pos !== false) {
+    unset($argv[$pos]);
+} else {
+    // make Delay to mute mode if no debug option
+    Delay::mute();
+}
+
 array_shift($argv);
-(new \Remix\Amp())->play($argv);
+Audio::instance()->amp()->play($argv);
