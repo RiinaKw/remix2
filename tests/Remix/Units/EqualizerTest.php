@@ -4,6 +4,7 @@ namespace Remix\Tests\Unit;
 
 use Remix\Utilities\PHPUnit\BaseTestCase;
 use Remix\Equalizer;
+use Remix\Utilities\Reflection\ReflectionObject;
 use Remix\Tests\TestClasses\ClassWithNoArgs;
 use Remix\Tests\TestClasses\ClassWithArgs;
 use Remix\Tests\TestClasses\ClassWithoutGear;
@@ -40,7 +41,11 @@ class EqualizerTest extends BaseTestCase
         $instance = $equalizer->instance(ClassWithArgs::class, 'test arg 1', 2);
         $this->assertNotNull($instance);
 
-        $this->assertSame(['test arg 1', 2], $instance->get());
+        $arg1 = (new ReflectionObject($instance))->getProp('arg1');
+        $arg2 = (new ReflectionObject($instance))->getProp('arg2');
+
+        $this->assertSame('test arg 1', $arg1);
+        $this->assertSame(2, $arg2);
     }
 
     public function testNonExists(): void
