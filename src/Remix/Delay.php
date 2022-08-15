@@ -22,7 +22,7 @@ final class Delay
 
     public static function mute(): void
     {
-        static::$handle = '.delay.phpunit.cache';
+        static::$handle = null;
     }
 
     /**
@@ -60,7 +60,9 @@ final class Delay
                     break;
             }
             $message = Cli::decorate($message, $text_color, $background_color);
-            file_put_contents(static::$handle, $message . "\n");
+            if (static::$handle) {
+                file_put_contents(static::$handle, $message . "\n");
+            }
         }
     }
 

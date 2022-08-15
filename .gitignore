@@ -3,4 +3,3 @@
 /.phpdoc/
 
 .phpunit.result.cache
-.delay.phpunit.cache
