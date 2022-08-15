@@ -20,7 +20,10 @@ class AmpDelayTest extends BaseTestCase
         $expected = [
             ['type' => 'TRACE', 'log' => '[birth] ' . Amp::class],
             ['type' => 'TRACE', 'log' => '[birth] ' . Noise::class],
-            ['type' => 'BODY', 'log' => Noise::class . '::index() {"args":{"voice":"Make it louder!!"},"switches":["C"]}'],
+            [
+                'type' => 'BODY',
+                'log' => Noise::class . '::index() {"args":{"voice":"Make it louder!!"},"switches":["C"]}'
+            ],
             ['type' => 'TRACE', 'log' => '[death] ' . Noise::class],
             ['type' => 'TRACE', 'log' => '[death] ' . Amp::class],
         ];
