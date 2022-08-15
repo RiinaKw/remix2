@@ -6,6 +6,8 @@ use Remix\Utilities\PHPUnit\BaseTestCase;
 use Remix\Equalizer;
 use Remix\Tests\TestClasses\ClassWithNoArgs;
 use Remix\Tests\TestClasses\ClassWithArgs;
+use Remix\Tests\TestClasses\ClassWithoutGear;
+use Remix\Exceptions\RemixLogicException;
 
 class EqualizerTest extends BaseTestCase
 {
@@ -39,5 +41,17 @@ class EqualizerTest extends BaseTestCase
         $this->assertNotNull($instance);
 
         $this->assertSame(['test arg 1', 2], $instance->get());
+    }
+
+    public function testWithoutGear(): void
+    {
+        $classname = ClassWithoutGear::class;
+
+        $this->expectException(RemixLogicException::class);
+        $this->expectExceptionMessage("Class '{$classname}' is not a subclass of Gear");
+
+        $equalizer = new Equalizer();
+
+        $equalizer->instance($classname, 'test arg 1', 2);
     }
 }

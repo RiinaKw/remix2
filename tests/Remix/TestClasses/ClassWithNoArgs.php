@@ -2,7 +2,9 @@
 
 namespace Remix\Tests\TestClasses;
 
-class ClassWithNoArgs
+use Remix\Gear;
+
+class ClassWithNoArgs extends Gear
 {
     public function __construct()
     {

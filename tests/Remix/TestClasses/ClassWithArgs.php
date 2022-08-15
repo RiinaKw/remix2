@@ -2,7 +2,9 @@
 
 namespace Remix\Tests\TestClasses;
 
-class ClassWithArgs
+use Remix\Gear;
+
+class ClassWithArgs extends Gear
 {
     private $arg1;
     private $arg2;
