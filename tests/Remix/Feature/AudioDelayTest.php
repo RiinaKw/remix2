@@ -13,7 +13,7 @@ class AudioDelayTest extends BaseTestCase
      *
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
     */
-    public function testAudioInstanceLog(): void
+    public function testAudioInstance(): void
     {
         // no any logs
         $this->assertSame([], Delay::get());
